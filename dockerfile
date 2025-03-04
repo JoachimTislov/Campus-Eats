@@ -29,9 +29,6 @@ WORKDIR /app
 # Copy published application from the build stage
 COPY --from=build /app/publish .
 
-# Copy the .env file
-COPY ./Mor_Qui_Sun_Tis_Lau/.env .
-
 COPY "Mor_Qui_Sun_Tis_Lau/Infrastructure/Data/ShopContext.db" /app/Infrastructure/Data/
 
 # Set environment variables for ASP.NET Core

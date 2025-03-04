@@ -51,6 +51,7 @@ jobs:
       run: |
         docker stop mor_qui_sun_tis_lau
         docker rm mor_qui_sun_tis_lau
+        
     env:
       AppPassword: ${{ secrets.APP_PASSWORD }}
       StripeSecretKey: ${{ secrets.STRIPE_SECRET_KEY }}
