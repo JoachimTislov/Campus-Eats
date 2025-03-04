@@ -51,3 +51,10 @@ jobs:
       run: |
         docker stop mor_qui_sun_tis_lau
         docker rm mor_qui_sun_tis_lau
+    env:
+      AppPassword: ${{ secrets.APP_PASSWORD }}
+      StripeSecretKey: ${{ secrets.STRIPE_SECRET_KEY }}
+      GoogleClientId: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GoogleClientSecret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      FacebookAppId: ${{ secrets.FACEBOOK_APP_ID }}
+      FacebookAppSecret: ${{ secrets.FACEBOOK_APP_SECRET }}
