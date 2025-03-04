@@ -21,7 +21,7 @@ jobs:
 
     - name: Run Docker Container
       run: |
-        docker run -d --name mor_qui_sun_tis_lau \
+        docker run -d --name mor_qui_sun_tis_lau my-app:latest \
          -p 5001:5001 \
          -e AppPassword= ${{ secrets.APP_PASSWORD }} \
          -e StripeSecretKey= ${{ secrets.STRIPE_SECRET_KEY }} \
@@ -29,7 +29,6 @@ jobs:
          -e GoogleClientSecret= ${{ secrets.GOOGLE_CLIENT_SECRET }} \
          -e FacebookAppId= ${{ secrets.FACEBOOK_APP_ID }} \
          -e FacebookAppSecret= ${{ secrets.FACEBOOK_APP_SECRET }} \
-         my-app:latest
 
     - name: Wait for Container to Start
       run: |
@@ -59,4 +58,3 @@ jobs:
       run: |
         docker stop mor_qui_sun_tis_lau
         docker rm mor_qui_sun_tis_lau
-        
