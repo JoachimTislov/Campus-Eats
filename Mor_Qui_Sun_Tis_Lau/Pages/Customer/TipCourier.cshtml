@@ -1,0 +1,59 @@
+@page "/TipCourier/{orderId:guid}"
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+@model TipModel
+@{
+    ViewData["Title"] = "Tip Courier";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+    <div class="ordersContainer flexCenter">
+        <div class="orderingDetails">
+
+            <div class="secondaryNavs">
+                <a asp-page="@UrlProvider.Customer.Orders">Orders</a>
+                <span> - </span>
+                <a class="currentPg disabledLink" disabled>Tip Courier</a>
+            </div>
+
+            <form method="post" asp-page-handler="TipCourier">
+                <input name="orderStatus" value="@Model.Order!.Status" type="hidden" />
+
+                <div class="standardBox">
+                    <h4>Tip Courier</h4>
+                    <div id="tipOptions">
+                        <p style="opacity: 0.75;" class="bold">Quick select</p>
+                        <button class="tipSelected" type="button" data-tip="10">10 NOK</button>
+                        <button type="button" data-tip="20">20 NOK</button>
+                        <button type="button" data-tip="30">30 NOK</button>
+                        <button type="button" data-tip="40">40 NOK</button>
+                        <button type="button" data-tip="50">50 NOK</button>
+                        <button type="button" data-tip="60">60 NOK</button>
+                        <button type="button" data-tip="80">80 NOK</button>
+                        <button type="button" data-tip="100">100 NOK</button>
+                        <hr>
+                        <button type="button" data-tip="custom">Custom</button><br>
+                        <div id="customTip" class="inactive">
+                            <label class="bold" for="tip"> Custom amount (Limit: 150, minimum 10 NOK)</label><br>
+                            <input name="tip" value="@Model.DeliveryViewModel.Tip.ToString("F2")" id="tip"
+                                placeholder="0.00" min="10" max="150" disabled />
+                            <span> NOK</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="tipCourier('@Model.Order.Id' ,'@Model.Order.Status')" class="mainBtn">
+                    Tip Courier
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/ordering.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,32 @@
+@model CanteenModel
+
+@if (Model.SelectedItem == null)
+{
+    <p style="text-align: center; color: red;">There was an issue retrieving the item! <br>Please try again later</p>
+}
+else
+{
+    <div class="imgContainer">
+        <img src="@Url.Content($"~/Img/{Model.SelectedItem.ImageLink}")" alt="@Model.SelectedItem.Name">
+    </div>
+    <h4>@Model.SelectedItem.Name</h4>
+    <div class="flex">
+        <div>
+            <span class="priceSpan">@Model.SelectedItem.Price.ToString("F2") NOK</span>
+            <button class="countBtn" onclick="updateItemCount('rem')">-</button>
+            <span class="countSpan" id="countSpan">0</span>
+            <button class="countBtn" onclick="updateItemCount('add')">+</button>
+        </div>
+    </div>
+    <p class="prodDescription">@Model.SelectedItem.Description</p>
+
+    <form method="post" asp-page="Canteen" asp-page-handler="AddToCart">
+        <input type="hidden" id="itemCount" name="count" value="0" />
+        <input type="hidden" name="itemId" value="@Model.SelectedItem.Id" />
+        <input type="hidden" name="name" value="@Model.SelectedItem.Name" />
+        <input type="hidden" name="price" value="@Model.SelectedItem.Price" />
+        <input type="hidden" name="imageLink" value="@Model.SelectedItem.ImageLink" />
+        <input type="hidden" name="stripe_productId" value="@Model.SelectedItem.Stripe_productId" />
+        <button type="submit" class="accentBtn inactive" id="addToCartBtn" disabled>Add to cart</button>
+    </form>
+}

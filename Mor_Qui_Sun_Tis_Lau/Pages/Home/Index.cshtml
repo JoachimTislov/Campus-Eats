@@ -1,0 +1,86 @@
+﻿@page "/"
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+@if (!User.Identity?.IsAuthenticated ?? false)
+{
+    <div class="credsAndImgContainer">
+        <div class="credentialsContainer">
+            <div id="displayControlContainer">
+                <div class="credsNavigationContainer">
+                    <button class="credsNavBtn @(Model.ShowRegister ? "" : "active")" id="loginOpt">Login</button>
+                    <button class="credsNavBtn @(Model.ShowRegister ? "active" : "")" id="registerOpt">Register</button>
+                </div>
+                <div class="CredsContainer">
+                    <div id="loginForm" class="@(Model.ShowRegister ? "hide" : "")">
+                        <partial name="Home/Partials/_loginFormPartial" model="Model.LoginViewModel" />
+                    </div>
+                    <div id="registerForm" class="@(Model.ShowRegister ? "" : "hide")">
+                        <partial name="Home/Partials/_registerFormPartial" model="Model.RegisterViewModel" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Image loaded with css -->
+        <div class="ImgContainer"></div>
+    </div>
+}
+else
+{
+    <div class="light_bg">
+        <div class="standardContainer">
+            @if (Model.UserIsAnAdmin)
+            {
+                <h1 class="txtCenter"> FoodItems </h1>
+                <br>
+
+                <br>
+                <partial name="Home/Partials/_foodItemsTableListPartial" model="Model.FoodItems" />
+            }
+            else
+            {
+                <h1> Welcome to Campus Eats </h1>
+
+                @if (Model.UserIsACourier)
+                {
+                    <p style="font-size: 1.25rem;">
+                        Go to
+                        <a class="bold" style="color: blue;" asp-page="@UrlProvider.Courier.CourierDashboard">courier dashboard</a>
+                        to view your earnings, pickup history and available orders
+                    </p>
+                }
+                else
+                {
+                    <br>
+
+                    <br>
+
+                    @if (Model.CourierRoleRequest != null)
+                    {
+                        <div>
+                            <p>Your current courier application status: <strong>@Model.CourierRoleRequest.Status</strong></p>
+                        </div>
+                    }
+                    <form method="post" asp-page-handler="ApplyForCourier">
+                        <div class="d-flex flex-column" style="padding-top: 2rem;">
+                            <label for="courierResume" class="fs-4" hidden> Apply for a Courier Position (min 50 chars)</label>
+                            <p style="padding-left: 5px; margin-bottom: 0.5rem;">Apply for a Courier Position (min 50 chars):</p>
+                            <textarea style="max-width: 500px;" class="m-1 p-3" id="courierResume" type="text" name="resume"
+                                rows="8" cols="50" placeholder="Enter resume here" minlength="50" required></textarea>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-lg btn-primary"> Submit your Resume </button>
+                    </form>
+                }
+            }
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="module" src="~/js/Index.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,37 @@
+@page "/Canteen"
+@model CanteenModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+    <div class="canteenContainer flex">
+        <div class="prodsContainer flex">
+            @foreach (var item in Model.FoodItems)
+            {
+                <div class="productContainer standardBox" onclick="displayItem('@item.Id')">
+                    <div class="productItem">
+                        <h4>@item.Name</h4>
+                        <p>@item.Price.ToString("F2") NOK</p>
+                        <p class="prodDescription">@item.Description</p>
+                    </div>
+                    <div class="productImgContainer">
+                        <img src="@Url.Content($"~/img/{item.ImageLink}")" alt="@item.Name">
+                        <button class="countBtn">+</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="prodDisplayContainer" class="prodDisplayContainer standardBox">
+            <p style="text-align: center;">Select a product to view details</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Canteen.js"></script>
+}

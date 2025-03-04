@@ -1,0 +1,70 @@
+@page "/Edit-product/{productId:guid}"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.ProductContext
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model EditProductModel
+@{
+    ViewData["Title"] = "Edit product";
+}
+
+<div class="edit-product-container mt-5">
+    <div class="d-flex">
+        <h2>Edit Product</h2>
+
+        <!-- Delete Button Form -->
+        <form method="post" asp-page-handler="Delete" class="ms-auto delete-form">
+            <input type="hidden" asp-for="ViewModel.Id" />
+            <input type="hidden" asp-for="ViewModel.Stripe_productId" />
+            <button type="submit" class="btn btn-danger delete-button"
+                onclick="return confirm('Are you sure you want to delete @Model.ViewModel.Name ?');">Delete</button>
+        </form>
+    </div>
+
+    <div class="button-container">
+
+        @if (Model.Errors.Any())
+        {
+            <div class="error-messages">
+                @foreach (var error in Model.Errors)
+                {
+                    <div class="error-text">@error</div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- Save Button Form -->
+    <form method="post" enctype="multipart/form-data" asp-page-handler="Edit" class="edit-form d-flex flex-column">
+        <input type="hidden" asp-for="ViewModel.Id" />
+        <input type="hidden" asp-for="ViewModel.ImageLink" />
+        <div class="image-upload-container d-flex flex-column">
+            <img id="ImagePreview" src="@Url.Content($"~/img/{@Model.ViewModel.ImageLink}")" alt="Image Preview" class="product-image-preview"/>
+            <span asp-validation-for="ViewModel.ImageFile" class="text-danger"></span>
+            <label class="image-upload-button">
+                Upload Image
+                <input asp-for="ViewModel.ImageFile" type="file" class="image-input" id="ImageFile" accept="image/*" />
+            </label>
+        </div>
+        <div class="form-fields">
+            <label for="Name">Name:</label>
+            <input asp-for="ViewModel.Name" class="form-control text-input" id="Name" />
+            <span asp-validation-for="ViewModel.Name" class="text-danger"></span>
+
+            <label for="Price">Price:</label>
+            <input asp-for="ViewModel.Price" class="form-control text-input" id="Price" />
+            <span asp-validation-for="ViewModel.Price" class="text-danger"></span>
+
+            <label for="Description">Description:</label>
+            <textarea asp-for="ViewModel.Description" class="form-control text-input" id="Description"></textarea>
+            <span asp-validation-for="ViewModel.Description" class="text-danger"></span>
+        </div>
+        <div class="button-container">
+            <a class="BackButton" asp-page="@UrlProvider.Index">Back</a>
+            <button type="submit" class="ms-auto save-button">Save</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/ImagePreview.js"></script>
+    <script src="~/js/inputAddDot.js"></script>
+}

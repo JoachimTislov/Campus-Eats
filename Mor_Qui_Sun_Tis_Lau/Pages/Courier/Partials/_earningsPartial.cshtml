@@ -1,0 +1,61 @@
+@using System.Globalization
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@using Mor_Qui_Sun_Tis_Lau.Pages.Courier.Enums
+
+@if (Model.TotalEarnings != 0m)
+{
+    <p class="totalEarnings bold" style="color: white; opacity: 0.65; font-size: 1.5rem;">Total earning: @Model.EarningsToShow[EarningsEnum.Total]
+        NOK
+    </p><br><br>
+    <div class="flex">
+        <form method="get" asp-page="/Dashboard">
+            <div class="">
+                <div class="col-md-6">
+                    <input type="hidden" name="activePage" value="@CourierDashboardPageEnum.Earnings" />
+                    @if (@Model.SelectedEarningsMonth != null)
+                    {
+                        <label for="monthSelector" class="form-label" style="color: white; opacity: 0.65;">Selected month:
+                            @Model.SelectedEarningsMonth.Year -
+                            @Model.SelectedEarningsMonth.ToString("MMMM")</label>
+                    }
+                    else
+                    {
+                        <label for="monthSelector" class="form-label" style="color: white; opacity: 0.65;">Select Month</label>
+                    }
+                    <select id=" yearSelector" name="selectedYear" class="form-select">
+                        <option value="" selected>-- All years --</option>
+                        @foreach (var year in Model.AllEarningsMonths ?? DateTime.Now.Year)
+                        {
+                            <option value="@year.Key">@year.Key</option>
+                        }
+                    </select>
+                    <select id="monthSelector" name="selectedMonth" class="form-select">
+                        <option value="" selected>-- All month --</option>
+                        @for (int month = 1; month <= 12; month++)
+                        {
+                            <option value="@month">@(new DateTime(2024, month, 1).ToString("MMMM",
+                        CultureInfo.InvariantCulture))
+                            </option>
+                        }
+                    </select>
+                    <br>
+                    <button type="submit" class="accentBtn">Select month</button>
+                    <br><br>
+                </div>
+            </div>
+        </form>
+        @*Pie chart section*@
+        <div class="container">
+            <div class="">
+                <div class="col-md-6">
+                    <canvas id="earningsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        @*End of pie chart section*@
+    </div>
+}
+else
+{
+    <div style="color: white; opacity: 0.65;">No earnings recorded</div>
+}

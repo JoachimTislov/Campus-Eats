@@ -1,0 +1,108 @@
+@page "/Dashboard"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.OrderingContext.Enum
+@using Mor_Qui_Sun_Tis_Lau.Pages.Courier.Enums
+@model CourierDashBoardModel
+@{
+    ViewData["Title"] = "CourierDashboard";
+
+    var IsOverview = Model.ActivePage == CourierDashboardPageEnum.OrderOverview;
+    var IsHistory = Model.ActivePage == CourierDashboardPageEnum.OrderHistory;
+    var IsEarnings = Model.ActivePage == CourierDashboardPageEnum.Earnings;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="dark_bg">
+    <div class="standardContainer">
+        <div>
+            <button class="credsNavBtn @(IsOverview ? "active" : "")" id="overviewOpt"
+                onclick="showPage('OrderOverview')">Order overview</button>
+            <button class="credsNavBtn @(IsHistory ? "active" : "")" id="historyOpt"
+                onclick="showPage('OrderHistory')">Order history</button>
+            <button class="credsNavBtn @(IsEarnings ? "active" : "")" id="earningsOpt"
+                onclick="showPage('Earnings')">Earnings</button>
+        </div>
+        <div class="CredsContainer" id="courierDashboard">
+            <div id="orderingOverview" class="@(IsOverview ? "" : "hide")">
+                @if (Model.OrdersAvailableForPickup?.Any() ?? false)
+                {
+                    <partial name="Courier/Partials/_ordersOverviewPartial" model="Model" />
+                }
+                else
+                {
+                    <div style="display: block;">
+                        <h1 style="color: white; opacity: 0.65;">No orders available</h1>
+                        <h4 style="color: white; opacity: 0.65;">(Try refreshing the page or come back later)</h4>
+                    </div>
+                }
+            </div>
+            <div id="orderingHistory" class="@(IsHistory ? "" : "hide")">
+                <partial name="Courier/Partials/_ordersHistoryPartial" model="Model" />
+            </div>
+            <div id="earnings" class="@(IsEarnings ? "" : "hide")">
+                <partial name="Courier/Partials/_earningsPartial" model="Model" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function showPage(page) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.credsNavBtn').forEach(btn => btn.classList.remove('active'));
+
+            // Hide all content divs
+            document.querySelectorAll('.CredsContainer > div').forEach(div => div.classList.add('hide'));
+
+            // Add active class to the clicked button and show the corresponding content
+            switch (page) {
+                case 'OrderOverview':
+                    document.getElementById('overviewOpt').classList.add('active');
+                    document.getElementById('orderingOverview').classList.remove('hide');
+                    break;
+                case 'OrderHistory':
+                    document.getElementById('historyOpt').classList.add('active');
+                    document.getElementById('orderingHistory').classList.remove('hide');
+                    break;
+                case 'Earnings':
+                    document.getElementById('earningsOpt').classList.add('active');
+                    document.getElementById('earnings').classList.remove('hide');
+                    break;
+            }
+        }
+
+        const ctx = document.getElementById('earningsChart').getContext('2d');
+        const earningsChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Delivery fee', 'Tips'], // Labels
+                datasets: [{
+                    label: 'Earnings',
+                    data: [@Html.Raw(Model.EarningsToShow[EarningsEnum.DeliveryFeeCut].ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0"),
+        @Html.Raw(Model.EarningsToShow[EarningsEnum.Tips].ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0")], // Earnings data
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true
+                    }
+                },
+                cutout: '50%'
+            }
+        });
+    </script>
+}

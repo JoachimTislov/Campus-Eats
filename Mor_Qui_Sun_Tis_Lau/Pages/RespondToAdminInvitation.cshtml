@@ -1,0 +1,38 @@
+@page "/Respond-to-admin-invitation/{AdminInvitationId:guid}"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.AdminContext
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.AdminContext.Enums
+@model RespondToAdminInvitationModel
+@{
+    ViewData["Title"] = "Respond Invitation";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Admin Invitation</h3>
+                    <p class="text-center mt-3">
+                        Do you want to become an admin?
+                    </p>
+                    <form method="post" asp-page-handler="RespondToInvitation" class="mt-4">
+                        <input type="hidden" name="invitationId" value="@Model.AdminInvitation?.Id">
+                        <div class="d-flex justify-content-between">
+                            <!-- Submit button for "Yes" -->
+                            <button type="submit" name="action" value="@RequestActionEnum.Accept"
+                                class="btn btn-success btn-lg">
+                                Yes
+                            </button>
+
+                            <!-- Submit button for "No" -->
+                            <button type="submit" name="action" value="@RequestActionEnum.Reject"
+                                class="btn btn-danger btn-lg">
+                                No
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

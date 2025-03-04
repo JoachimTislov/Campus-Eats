@@ -1,0 +1,50 @@
+@page "/Benefits"
+@model BenefitsModel
+@{
+    ViewData["Title"] = "Benefits";
+}
+
+@using Mor_Qui_Sun_Tis_Lau.Pages.Admin.Enum
+@using System.Globalization
+
+<div class="light_bg adHeading">
+    <h1 class="txtCenter">Benefits</h1>
+    <div class="lightTheme_bg" style="max-width: 400px;">
+        <form method="get">
+            <label for="filter">Show:</label>
+            <select name="filterType" id="filter" onchange="this.form.submit()" asp-for="FilterType">
+                <option value="@FilterTypeEnum.All" selected="@(Model.FilterType == FilterTypeEnum.All)">All</option>
+                <option value=" @FilterTypeEnum.ThisMonth" selected="@(Model.FilterType == FilterTypeEnum.ThisMonth)">This month
+                </option>
+            </select>
+        </form>
+        <br><br>
+
+        <div class="flexBetween">
+            <p>Total order cost:</p>
+            <p class="bold">@Model.totalEarned.ToString("N2", CultureInfo.GetCultureInfo("nb-NO")) NOK</p>
+
+        </div>
+        <div class="flexBetween">
+            <p>Total service fee earned:</p>
+            <p class="bold">@Model.totalEarnedServiceFee.ToString("N2", CultureInfo.GetCultureInfo("nb-NO")) NOK</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    select {
+        padding: 8px 16px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+        color: #111
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #007BFF;
+    }
+</style>

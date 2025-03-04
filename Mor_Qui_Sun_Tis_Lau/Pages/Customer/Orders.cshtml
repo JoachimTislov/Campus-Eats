@@ -1,0 +1,118 @@
+@page "/Orders"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.OrderingContext.Enum
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model OrdersModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+
+    <div id="confirmCancelOrderModal" class="modalOverlay hide">
+        <div class="modalContent">
+            <h3 class="bold">Confirm Cancellation</h3>
+            <p class="txtCenter warnTxt">You are about to cancel this order</p>
+            <p>
+                If the order has been picked up by the courier, you will still be charged the delivery fee.
+            </p>
+            <p>Are you sure you want to continue?</p>
+            <div class="modalActions flexBetween">
+                <button id="revertCancelBtn" class="secondaryBtn">Back</button>
+                <button id="confirmCancelBtn" class="warnBtn">Cancel order</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ordersContainer">
+        @if (Model.UserOrders.Any())
+        {
+            <h1>Your orders</h1>
+            @foreach (var order in Model.UserOrders.OrderByDescending(o => o.OrderDate))
+            {
+                var status = Model.OrderInvoices.ContainsKey(order.Id) ? Model.OrderInvoices[order.Id].ToString() : "Missing";
+                <div class="orderContainer standardBox">
+                    <h4>@order.OrderDate.ToString("dd/MM/yyyy")</h4>
+                    <p>
+                        <span>Status:</span>
+                        <span id="@order.Id-Status" class="orderStatus">@order.Status</span>
+                        <span>@OrdersModel.GetStatusMessage(order.Status)</span>
+                    </p>
+                    <p>
+                        <span>Order ID:</span>
+                        <span class="orderId">@order.Id</span>
+                    </p>
+                    <p>
+                        <span>Sum:</span>
+                        <span class="orderSum">@order.TotalCost().ToString("F2") NOK</span>
+                    </p>
+                    <hr style="margin-top: 2rem;">
+                    <p>
+                        <span>Payment status:</span>
+                        @if (order.Status.ToString() == "New")
+                        {
+                            <span>None</span>
+                        }
+                        else
+                        {
+                            <span class="invoiceStatus @status">@status</span>
+                        }
+                    </p>
+                    <hr>
+
+                    <div style="padding-top: 1rem;" class="flexBetween">
+                        <div>
+                            <a style="display: inline-block;" class="mainBtn" asp-page="@UrlProvider.Customer.Ordering"
+                                asp-route-orderId="@order.Id">
+                                @if (order.IsNew())
+                                {
+                                    <span>Finish order</span>
+                                }
+                                else
+                                {
+                                    <span>Invoice</span>
+                                }
+                            </a>
+                        </div>
+
+                        <div>
+                            @{
+                                var canTipCourier = order.Status == OrderStatusEnum.Delivered;
+                            }
+                            @if (canTipCourier && order.Tip < 10m)
+                            {
+                                <a style="display: inline-block; margin-right: 1rem;" asp-page="@UrlProvider.Customer.TipCourier" asp-route-orderId="@order.Id" class="accentBtn">Tip courier</a>
+                            }
+
+                            @if (!order.IsNew())
+                            {
+                                <a style="display: inline-block;" asp-page="@UrlProvider.Customer.OrderDetails" asp-route-orderId="@order.Id"
+                                    class="mainBtn">
+                                    View order details
+                                </a>
+                            }
+
+                            @if (await Model.CanCancelOrder(order.Id))
+                            {
+                                <form style="display: inline-block;" method="post" asp-page-handler="CancelOrder" asp-route-orderId="@order.Id" asp-route-orderStatus="@order.Status">
+                                    <button type="button" style="margin-left: 1rem;" class="warnBtn cancelOrderBtn">Cancel order</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h1>No orders found</h1>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+}

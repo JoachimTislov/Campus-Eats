@@ -1,0 +1,154 @@
+@page "/Ordering/{orderId:guid}"
+@model OrderingPage
+@{
+    ViewData["Title"] = "Ordering";
+
+    var orderIsNotNew = !Model.Order!.IsNew();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+    <div class="orderingContainer">
+        <div class="flexCenter">
+            @if (Model.Invoice != null)
+            {
+                <div class="orderingDetails">
+                    <div class="standardBox">
+                        <h4> Invoice </h4>
+                        <div>
+                            <label for="PaymentDue"> Payment Due </label><br>
+                            <input id="PaymentDue" value="@Model.Invoice.PaymentDue" readonly="@true" />
+                        </div>
+
+                        <div>
+                            <label for="PaymentStatus"> Payment Status </label><br>
+                            <input id="PaymentStatus" value="@Model.Invoice.Status" readonly="@true" />
+                        </div>
+
+                        @foreach (var property in Model.Invoice.Address.GetType().GetProperties())
+                        {
+                            <div>
+                                <label for="@property.Name"> @property.Name </label><br>
+                                <input id="@property.Name" value="@property.GetValue(Model.Invoice.Address)" readonly="@true" />
+                            </div>
+                        }
+
+                        @if (Model.Invoice.IsPayable())
+                        {
+                            <br>
+
+                            <br>
+                            <form method="post" asp-page-handler="PayInvoiceThroughStripeCheckoutSession">
+                                <input type="hidden" name="invoiceId" value="@Model.Invoice.Id">
+                                <button type="submit" class="mainBtn"> Pay Invoice </button>
+                            </form>
+                        }
+                    </div>
+
+                    @if (Model.Offer != null)
+                    {
+                        <div class="standardBox">
+                            <h4> Offer </h4>
+
+                            <div>
+                                <label for="orderExpense"> Refund Expense </label><br>
+                                <input id="orderExpense" value="@Model.Offer.OrderExpense" readonly="@true" />
+                            </div>
+
+                            <div>
+                                <label for="orderExpense"> Status </label><br>
+                                <input id="orderExpense" value="@Model.Offer.Status" readonly="@true" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="orderingDetails">
+                    <form method="post" asp-page-handler="PlaceOrder">
+                        <div class="standardBox">
+                            <h4>Delivery location</h4>
+                            <div>
+                                <label for="building"> Building </label><br>
+                                <input asp-for="DeliveryViewModel.Building" id="building" type="text"
+                                    readonly="@orderIsNotNew" />
+                                <span asp-validation-for="DeliveryViewModel.Building" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label for="roomNumber"> Room Number </label><br>
+                                <input asp-for="DeliveryViewModel.RoomNumber" id="roomNumber" type="text"
+                                    readonly="@orderIsNotNew" />
+                                <span asp-validation-for="DeliveryViewModel.RoomNumber" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label for="note"> Note (Maximum 250 characters)</label><br>
+                                <textarea asp-for="DeliveryViewModel.Notes" id="note" rows="5" maxlength="250"
+                                    readonly="@orderIsNotNew"></textarea>
+                                <span asp-validation-for="DeliveryViewModel.Notes" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        @if (!orderIsNotNew)
+                        {
+                            <div class="standardBox">
+                                <h4>Invoice Address</h4>
+                                <div>
+                                    <label for="addressLine"> Address line </label><br>
+                                    <input asp-for="InvoiceAddressViewModel.AddressLine" id="addressLine" type="text" /><br>
+                                    <span asp-validation-for="InvoiceAddressViewModel.AddressLine" class="text-danger"></span>
+                                </div>
+                                <div>
+                                    <label for="city"> City </label><br>
+                                    <input asp-for="InvoiceAddressViewModel.City" id="city" type="text" /><br>
+                                    <span asp-validation-for="InvoiceAddressViewModel.City" class="text-danger"></span>
+                                </div>
+                                <div>
+                                    <label for="postalCode"> Postal code </label><br>
+                                    <input asp-for="InvoiceAddressViewModel.PostalCode" id="postalCode" type="number" /><br>
+                                    <span asp-validation-for="InvoiceAddressViewModel.PostalCode" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="mainBtn"> Place Order </button>
+                        }
+                    </form>
+                </div>
+
+                <div class="standardBox orderView">
+                    <h4>Your Order</h4>
+                    <h5> Status: @Model.Order.Status </h5>
+                    <br>
+
+                    @foreach (var item in Model.Order.OrderLines.ToList())
+                    {
+                        <p class="flexBetween">
+                            <span>@item.Name</span>
+                            <span>x@(item.Quantity)</span>
+                            <span>@item.Price.ToString("F2") NOK</span>
+                        </p>
+                    }
+                    <br>
+                    <hr>
+
+                    <div class="flexBetween">
+                        <p style="display: block;">Delivery <span class="bold">fee</span>:</p>
+                        <p>@Model.Order.DeliveryFee.ToString("F2") NOK</p>
+                    </div>
+
+                    <div class="flexBetween bold" style="font-size: 1.5rem; padding-top: 2rem;">
+                        <p>Total: </p>
+                        <p>@Model.Order.TotalCost().ToString("F2") NOK</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/ordering.js" asp-append-version="true"></script>
+}

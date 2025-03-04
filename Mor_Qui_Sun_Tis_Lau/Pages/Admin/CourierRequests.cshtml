@@ -1,0 +1,52 @@
+@page "/Courier-requests"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.AdminContext
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.AdminContext.Enums
+@model CourierRequestsModel
+@{
+    ViewData["Title"] = "CourierRequests";
+}
+
+<div class="light_bg adHeading">
+    <h1 class="txtCenter">Courier Requests</h1>
+    <div class="standardContainer lightTheme_bg">
+        @if (Model.PendingRequests.Count() == 0)
+        {
+            <p>No pending requests at the moment.</p>
+        }
+        else
+        {
+            <table class="baseTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Resume</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model.PendingRequests)
+                    {
+                        <tr>
+                            <td>@Model.RequestUserMapping[request].FirstName</td>
+                            <td>@Model.RequestUserMapping[request].LastName</td>
+                            <td>@Model.RequestUserMapping[request].Email</td>
+                            <td style="max-width: 450px; word-wrap: break-word; white-space: normal;">@request.Resume</td>
+                            <td>
+                                <form method="post" asp-page-handler="Update">
+                                    <input type="hidden" name="userId" value="@request.UserId">
+                                    <input type="hidden" name="requestId" value="@request.Id">
+                                    <button type="submit" name="action" value="@RequestActionEnum.Accept"
+                                        class="btn btn-success">Accept</button>
+                                    <button type="submit" name="action" value="@RequestActionEnum.Reject"
+                                        class="btn btn-danger">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

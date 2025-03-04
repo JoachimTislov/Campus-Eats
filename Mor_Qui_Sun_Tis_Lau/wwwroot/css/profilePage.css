@@ -1,0 +1,27 @@
+input:disabled {
+    cursor: not-allowed;
+}
+
+.profileContainer button{
+    width: 80%;
+    position: absolute;
+    bottom: 1rem;
+    left: 10%;
+}
+.profileContainer input{
+    width: 100%;
+}
+.profileContainer .standardBox{
+    position: relative;
+    padding: 2rem 2rem 5rem 2rem; 
+    width: 280px;
+}
+.profileContainer p{
+    margin: 0;
+}
+.profileContainer h4{
+    padding-bottom: 1rem;
+}
+.profileContainer h1{
+    padding-bottom: 2rem;
+}

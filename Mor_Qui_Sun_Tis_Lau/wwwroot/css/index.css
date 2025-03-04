@@ -1,0 +1,752 @@
+:root {
+  --mainDarkColour: #1f1f23;
+  --mainLightBackground: #ebebeb;
+  --mainAccentColour: #fbb17a;
+  --fieldDarkColour: #35353c;
+  --darkFieldPlaceholderTxt: #92929d;
+  --white: #ffffff;
+  --warn: #F43030;
+}
+
+/* Comment */
+html, body {
+  height: 100%;
+  margin: 0; 
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  position: relative;
+  min-height: 100%;
+  font-family: Geneva, Tahoma, sans-serif;
+}
+
+main h1 {
+  margin: 0;
+}
+
+/* Headers & Header components */
+header {
+  background-color: var(--mainDarkColour);
+}
+
+header nav {
+  padding: 1rem 0 1rem 0;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.headerContentContainer a {
+  text-decoration: none;
+  color: var(--white);
+  font-size: 3rem;
+}
+.varHeaderContentContainer {
+  position: relative;
+}
+.varHeaderContentContainer ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.varHeaderContentContainer ul li {
+  padding: 1.5rem 2rem 0 0;
+  list-style-type: none;
+}
+.varHeaderContentContainer ul a {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 1.15rem;
+}
+
+/* Buttons & Btn components */
+button {
+  cursor: pointer;
+}
+
+.SubmitButton,
+.accentBtn,
+.mainBtn {
+  border-radius: 5px;
+}
+.accentBtn,
+.mainBtn {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  font-weight: bold;
+}
+
+.SubmitButton {
+  margin: 2rem 0 0 0;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  background-color: var(--mainAccentColour);
+  color: var(--mainDarkColour);
+  border: none;
+}
+
+.countBtn,
+.remBtn {
+  background-color: var(--white);
+  border-radius: 100%;
+  color: var(--mainDarkColour);
+  border: 1px solid #1f1f2350;
+  font-weight: bold;
+}
+
+.remBtn {
+  width: 30px;
+  height: 30px;
+}
+
+.credsNavBtn {
+  background-color: var(--mainDarkColour);
+  color: var(--white);
+  border: none;
+  opacity: 0.5;
+  margin-right: 2rem;
+  font-size: 1.25rem;
+}
+.accentBtn {
+  background-color: var(--mainAccentColour);
+  color: var(--mainDarkColour);
+  border: 1px solid #1f1f2380;
+}
+.mainBtn {
+  background-color: var(--mainDarkColour);
+  color: var(--mainAccentColour);
+  border: 1px solid #1f1f2380;
+}
+.warnBtn{
+  background-color: var(--warn) ;
+  color: var(--white);
+  border: 1px solid #1F1F2380;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+.secondaryBtn{
+  background-color: #1f1f2310;
+  color: #1f1f23ba;
+  border: 1px solid #1f1f23b4;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+/* Navbars & nav related components */
+.credsNavigationContainer {
+  padding: 8rem 0 0 0;
+}
+
+.navItem {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.navItem:hover {
+  background-color: #ffffff10;
+}
+.navItem svg {
+  width: 30px;
+  height: 30px;
+}
+
+.flex {
+  display: flex;
+}
+.flexBetween {
+  display: flex;
+  justify-content: space-between;
+}
+.flexCenter {
+  display: flex;
+  justify-content: center;
+}
+.txtCenter{
+  text-align: center;
+}
+.txtUnderline{
+  text-decoration: underline;
+}
+
+.hide {
+  display: none !important;
+}
+.noScroll{
+  overflow: hidden;
+  height: 100%;
+}
+
+.credsAndImgContainer {
+  display: flex;
+  background-color: var(--mainDarkColour);
+}
+
+.credentialsContainer,
+.ImgContainer {
+  min-width: 50%;
+  height: 94vh;
+  color: var(--white);
+}
+
+.credentialsContainer {
+  position: relative;
+  max-width: 500px;
+}
+
+.ImgContainer {
+  background-image: url(../img/uis.webp);
+  background-size: cover;
+}
+
+.active {
+  border-bottom-color: var(--mainAccentColour);
+  border-bottom: 2px solid var(--mainAccentColour);
+  opacity: 1;
+}
+.disabledLink {
+  pointer-events: none;
+}
+
+#displayControlContainer {
+  position: absolute;
+  right: 15%;
+}
+
+.CredsContainer {
+  padding: 4rem 0 0 0;
+  width: 450px;
+}
+.CredsContainer form {
+  padding: 2rem 0 0 0;
+}
+
+.CredsInputField {
+  width: 100%;
+  font-size: 18px;
+  margin: 0 0 1rem 0;
+  padding: 1rem 0.5rem 1rem 1rem;
+  background-color: var(--fieldDarkColour);
+  border: 0;
+  border-radius: 5px;
+  color: var(--white);
+}
+
+.CredsContainer::placeholder {
+  color: var(--darkFieldPlaceholderTxt);
+}
+
+.displayedMsg {
+  font-size: 2.5rem;
+  font-family: Geneva, Tahoma, sans-serif;
+  margin-bottom: 0;
+}
+
+.underlined {
+  border-bottom: 1px solid var(--darkFieldPlaceholderTxt);
+  padding-bottom: 1px;
+}
+
+.standardBox {
+  background-color: #1f1f2305;
+  border: 1px solid #1f1f2350;
+  border-radius: 5px;
+  color: var(--mainDarkColour);
+}
+
+.cartItemsCount {
+  background-color: var(--white);
+  position: absolute;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 0px;
+}
+.cartItemsCount span {
+  color: var(--mainDarkColour);
+  font-weight: bold;
+  font-size: 80%;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 20px;
+}
+
+.inactive {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.accent {
+  padding-bottom: 1rem;
+}
+.accent a {
+  color: var(--white);
+  text-decoration: none;
+  opacity: 0.5;
+}
+.accent a:hover {
+  color: var(--mainAccentColour);
+}
+
+.canteenContainer,
+.cartContainer {
+  padding-bottom: 8rem;
+}
+
+div.light_bg {
+  background-color: var(--mainLightBackground);
+  height: auto;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  color: var(--mainDarkColour);
+}
+.adHeading h1 {
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+div.dark_bg {
+  background-color: var(--mainDarkColour);
+  height: auto;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  color: var(--white);
+}
+
+.bold {
+  font-weight: bold;
+}
+.warnTxt{
+  color: var(--warn);
+}
+
+
+/* MODALS */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modalContent {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 500px;
+}
+.modalContent p {
+  font-size: 1.15rem;
+}
+.modalContent h3 {
+  text-align: center;
+  color: var(--mainDarkColour);
+  padding-bottom: 1.5rem;
+}
+.modalActions button {
+  min-width: 125px;
+  margin-top: 2rem;
+}
+
+
+div.light_bg input,
+div.light_bg textarea{
+  background-color: #ffffff80;
+  border: solid 1px #1f1f2350;
+  border-radius: 5px;
+  padding: 0.5rem;
+  color: var(--mainDarkColour);
+  margin: 0 0 1rem 0;
+}
+div.light_bg input:focus,
+div.light_bg textarea:focus{
+  outline: 1px solid #fbb27ac0;
+  border-radius: 5px;
+}
+
+.standardContainer{
+  max-width: 1400px;
+  margin: auto;
+  color: var(--mainDarkColour);
+  padding-top: 4rem;
+}
+
+
+/* SECONDARY NAVIGATION */
+.secondaryNavs {
+  margin: auto;
+  padding-bottom: 2rem;
+}
+.secondaryNavs a {
+  color: var(--mainDarkColour);
+  text-decoration: none;
+  padding: 0rem 0.5rem 0.25rem 0.5rem;
+}
+.secondaryNavs a:hover {
+  color: var(--mainAccentColour);
+}
+.currentPg {
+  border-bottom: 2px solid var(--mainAccentColour);
+}
+
+
+
+/* --------------------------- Products CRUD Admin --------------------------- */
+.lightTheme_bg {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden; /* Prevents child elements from spilling out */
+  min-height: 100%; /* Ensures it adapts to the content height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional visual improvement */
+  display: flex;
+  flex-direction: column; /* Ensures stacked layout */
+  margin: auto;
+  max-width: 1400px;
+}
+
+.container,
+.lightTheme_bg {
+  height: auto; /* Remove fixed height if any */
+  overflow: visible; /* Ensure content is not hidden */
+}
+
+.container {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: stretch; /* Allow child elements to expand fully */
+}
+
+.productsContainer {
+  flex-grow: 1; /* Allows it to expand and take remaining space */
+  overflow-y: auto; /* Adds a vertical scrollbar when content overflows */
+  max-height: 500px; /* Optional: Restricts height for scrolling */
+  padding: 10px; /* Adds some padding around the container */
+  background-color: white; /* Optional: Keep consistent look */
+  border: 1px solid #ddd; /* Optional: Add a light border */
+  border-radius: 8px; /* Optional: Matches the theme */
+}
+
+.productsTable, .baseTable{
+  width: 100%; /* Ensure the table stretches across the container */
+  border-collapse: collapse; /* Prevent gaps in table borders */
+  margin: 0 auto; /* Center-align the table */
+  table-layout: auto;
+}
+
+.productsTable th, .baseTable th,
+.productsTable td, .baseTable td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd; /* Adds a light border to rows */
+  color: var(--mainDarkColour); /* Ensures black text */
+  font-size: 14px;
+}
+
+.productsTable th, .baseTable th {
+  background-color: #333;
+  color: white;
+  font-weight: bold;
+}
+
+.productsTable tr:hover, .baseTable tr:hover{
+  background-color: #f1f1f1; /* Adds hover effect for rows */
+}
+
+.productImage {
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 5px;
+}
+
+.editButton {
+  background-color: var(--mainAccentColour);
+  color: var(--mainDarkColour);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.addProductButton {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: var(--mainAccentColour);
+  color: var(--mainDarkColour);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  max-width: 200px;
+  text-decoration: none;
+}
+
+
+.edit-product-container {
+  background-color: #c5c6c9;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-product-container h2 {
+  margin-bottom: 20px;
+  color: var(--mainDarkColour);
+}
+
+.image-upload-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-image-preview {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.image-upload-button {
+  display: inline-block;
+  background-color: var(--mainAccentColour);
+  color: var(--mainDarkColour);
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin: 0 0 2rem 0;
+}
+
+.image-upload-button input[type="file"] {
+  display: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* This aligns the buttons to opposite sides */
+  align-items: center; /* This vertically aligns the buttons if needed */
+  width: 100%; /* Make sure the container takes up full width */
+}
+
+.save-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.delete-button:hover, .warnBtn:hover {
+  background-color: #ff0000;
+}
+
+.error-messages {
+  margin-top: 20px;
+  color: red;
+}
+
+.error-text {
+  margin-bottom: 5px;
+}
+
+.create-product-container {
+  background-color: #c5c6c9;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 600px;
+  margin: 4rem auto 4rem auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-product-container h2 {
+  margin-bottom: 20px;
+  color: var(--mainDarkColour);
+}
+
+.image-upload-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-image-preview {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.image-upload-button {
+  display: inline-block;
+  background-color: var(--mainAccentColour);
+  color: var(--mainDarkColour);
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.image-upload-button input[type="file"] {
+  display: none;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-fields label {
+  font-weight: bold;
+  color: var(--mainDarkColour);
+}
+
+.form-fields .form-control {
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.save-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.error-messages {
+  margin-top: 20px;
+  color: red;
+}
+
+.error-text {
+  margin-bottom: 5px;
+}
+
+.text-input {
+  background-color: white; /* White background */
+  color: black; /* Black text */
+  border: 1px solid #ddd;
+  padding: 8px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.text-input:focus {
+  background-color: white; /* Ensure it stays white on focus */
+  color: black; /* Ensure text remains black */
+  outline: none; /* Optional: Remove default outline */
+  border-color: #aaa; /* Optional: Change border on focus */
+}
+
+.text-input:not(:placeholder-shown) {
+  background-color: white; /* Ensure it stays white when text is entered */
+  color: var(--mainDarkColour); /* Ensure text remains black */
+}
+
+textarea.text-input {
+  height: 150px; /* Set the default height */
+  resize: vertical; /* Allow resizing only vertically */
+}
+
+.BackButton {
+  background-color: #333; /* Dark gray background */
+  color: var(--mainAccentColour); /* Coral text color */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px 20px; /* Space inside the button */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  text-align: center; /* Center text inside */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional subtle shadow */
+  text-decoration: none;
+}
+
+.save-button {
+  color: #333; /* Dark gray background */
+  background-color: var(--mainAccentColour); /* Coral text color */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 10px 20px; /* Space inside the button */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  text-align: center; /* Center text inside */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional subtle shadow */
+}
+
+.BackButton:hover, .mainBtn:hover {
+  background-color: #27272c; /* Slightly lighter gray on hover */
+}
+.save-button:hover, .accentBtn:hover, .addProductButton:hover, .editButton:hover, .image-upload-button{
+  background-color: #f9a362;
+}
+
+button.orderStatusFilterBtn{
+  background-color: transparent;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  margin-right: 1rem;
+  color: var(--mainDarkColour);
+}
+#ImagePreview{
+  width: 100%;
+  height: 400px;
+}
+
+#notifyBox {
+  border: 4px solid white;
+  background-color: #ab8044;
+  z-index: 100;
+  width: 50%;
+  height: 100px;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}

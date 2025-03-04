@@ -1,0 +1,58 @@
+@page "/Overview/{orderId:guid}"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.OrderingContext.Enum
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model CourierOrderOverviewModel;
+@{
+    ViewData["Title"] = "OrderOverview";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="standardContainer" style="color: white; max-width: 400px;">
+    <div class="location">Building: @Model.Order!.CampusLocation.Building</div>
+    <div class="location">Room number: @Model.Order.CampusLocation.RoomNumber</div>
+    <div class="location">Note: @Model.Order.CampusLocation.Notes</div>
+    <div class="status">Status: <strong>@Model.Order.Status</strong></div>
+    <div class="date">Date: @Model.Order.OrderDate.Date</div>
+    <br><hr>
+    @if (Model.Order.Status == OrderStatusEnum.Delivered)
+    {
+        <div>Delivery fee cut: @(Model.Order.CourierDeliveryFeeCut) NOK </div>
+        <div>Tip: @Model.Order.Tip NOK </div>
+        <div><strong>Compensation:</strong> @(Model.Order.CourierEarning) NOK </div>
+    }
+    else
+    {
+        <div>Compensation: @(Model.Order.CourierDeliveryFeeCut) NOK + tip</div>
+    }
+    <hr><br>
+    <div class="flexBetween">
+        @if (Model.Order.Status == OrderStatusEnum.Picked)
+        {
+            <form method="post" asp-page-handler="ChangeStatus">
+                <input type="hidden" name="OrderStatusEnum" value="@OrderStatusEnum.Shipped" />
+                <button class="accentBtn bold" type="submit">Ship Order</button>
+            </form>
+        }
+        else if (Model.Order.Status == OrderStatusEnum.Shipped)
+        {
+            <form method="post" asp-page-handler="ChangeStatus">
+                <input type="hidden" name="OrderStatusEnum" value="@OrderStatusEnum.Delivered" />
+                <button class="accentBtn" type="submit">Confirm delivery</button>
+            </form>
+            <form method="post" asp-page-handler="ChangeStatus">
+                <input type="hidden" name="OrderStatusEnum" value="@OrderStatusEnum.Missing" />
+                <button class="warnBtn" type="submit">Delivery lost</button>
+            </form>
+        }
+        <a asp-page="@UrlProvider.Courier.CourierDashboard" class="btn btn-secondary bold">Back</a>
+    </div>
+</div>
+
+<style>
+    .btn {
+        margin-bottom: 5px;
+    }
+</style>

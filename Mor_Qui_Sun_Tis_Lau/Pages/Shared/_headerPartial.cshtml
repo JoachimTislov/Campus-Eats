@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Identity
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.CartContext.Services
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.UserContext
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.UserContext.Services
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@inject IUserService UserService
+@inject SignInManager<User> SignInManager
+@inject ICartService CartService
+
+@if (User.Identity?.IsAuthenticated ?? false)
+{
+    var cartId = await CartService.GetCartIdFromSessionAsync(User, Context.Session);
+    var cartItemsCount = (await CartService.GetCartAsync(cartId)).Items.Count();
+
+    @if (!await UserService.CheckIfUserIsAssignedRole(User, "Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link fs-4" asp-page="@UrlProvider.Customer.Cart">
+                Cart
+                <span class="badge" style="background-color: #fbb17a; color: #1f1f23;">@cartItemsCount</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fs-4" asp-page="@UrlProvider.Profile"> Profile </a>
+        </li>
+    }
+
+    <li class="nav-item">
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/">
+            <button class="m-0 btn btn-lg btn-danger logout" type="submit">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li style="padding: 1.5rem 0 0 0;">
+        <a class="accentBtn" style="color: #1f1f23;" asp-page="@UrlProvider.Admin.Login">Admin</a>
+    </li>
+}
+
+<style>
+    .logout {
+        margin-top: -2.5px !important;
+    }
+</style>

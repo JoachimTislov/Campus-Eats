@@ -1,0 +1,43 @@
+@page "/Admin-invitation-overview"
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model AdminInvitationOverviewModel
+@{
+    ViewData["Title"] = "Invitation Overview";
+}
+
+<div class="light_bg adHeading">
+    <h1 class="txtCenter">Invite Users</h1>
+    <div class="lightTheme_bg" style="max-width: 1400px; margin: auto;">
+        @if (Model.Customers == null)
+        {
+            <p>No users available.</p>
+        }
+        else
+        {
+            <table class="baseTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        <tr>
+                            <td>@customer.FirstName</td>
+                            <td>@customer.LastName</td>
+                            <td>@customer.Email</td>
+                            <td>
+                                <a asp-page="@UrlProvider.Admin.InvitationForm" asp-route-userId="@customer.Id"
+                                    class="btn btn-outline-success">Invite user</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

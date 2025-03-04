@@ -1,0 +1,130 @@
+@page "/OrderDetails/{orderId:guid}"
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model OrderDetailsModel
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+    <div class="orderDetailsContainer">
+        <div class="secondaryNavs">
+            <a asp-page="@UrlProvider.Customer.Orders">Orders</a>
+            <span> - </span>
+            <a class="currentPg disabledLink" disabled>Order Details</a>
+        </div>
+
+        <div class="standardBox">
+            <h4>Order Summary</h4>
+            <div>
+                <p><span class="bold">Date:</span> @Model.Order!.OrderDate.ToString("dd/MM/yyyy")</p>
+                <p><span class="bold">Status:</span> <span id="@Model.Order.Id-Status" >@Model.Order.Status</span></p>
+            </div>
+            <hr>
+            <div class="orderSummary">
+                <h5>Order Content</h5>
+                @foreach (var orderLine in Model.Order.OrderLines)
+                {
+                    <p class="flexBetween">
+                        <span>@orderLine.Name</span>
+                        <span>x@(orderLine.Quantity)</span>
+                        <span>@orderLine.Price.ToString("F2") NOK</span>
+                    </p>
+                }
+                <br>
+                <div class="flexBetween">
+                    <p>Subtotal:</p>
+                    <p>@Model.Order.SubtotalCost().ToString("F2") NOK</p>
+                </div>
+            </div>
+            <hr>
+            <div class="orderSummary">
+                <div class="flexBetween">
+                    <p style="display: block;">Delivery <span class="bold">fee</span>:</p>
+                    <p>@Model.Order.DeliveryFee.ToString("F2") NOK</p>
+                </div>
+                @if (Model.Order.Tip > 0.0m)
+                {
+                    <div class="flexBetween">
+                        <p id="tipStatic" style="display: block;">Tip: </p>
+                        <p>@Model.Order.Tip.ToString("F2") NOK</p>
+                    </div>
+                }
+                <div class="flexBetween bold" style="font-size: 1.5rem; padding-top: 2rem;">
+                    <h5>Total: </h5>
+                    <p>@Model.Order.TotalCost().ToString("F2") NOK</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="standardBox">
+            <h4>Delivery location</h4>
+            <div class="flexBetween orderSummary">
+                <p>Building:</p>
+                <p>@Model.Order.CampusLocation.Building</p>
+            </div>
+            <div class="flexBetween orderSummary">
+                <p>Room Number:</p>
+                <p>@Model.Order.CampusLocation.RoomNumber</p>
+            </div>
+            <br>
+            <div class="orderSummary">
+                <p style="margin: 0;">Notes:</p>
+                <p>@Model.Order.CampusLocation.Notes</p>
+            </div>
+        </div>
+
+        @if (Model.Invoice != null || Model.Offer != null)
+        {
+            <div class="standardBox">
+                @if (Model.Invoice != null)
+                {
+                    <h4>Invoice Details</h4>
+                    <div class="flexBetween orderSummary">
+                        <p>Payment:</p>
+                        <p>@Model.Invoice.PaymentDue.ToString("F2") NOK</p>
+                    </div>
+                    <div class="flexBetween orderSummary">
+                        <p>Payment Status:</p>
+                        <p>@Model.Invoice.Status</p>
+                    </div>
+                    <br>
+
+                    <br>
+                    <div class="flexBetween orderSummary">
+                        <p>Address:</p>
+                        <p>@Model.Invoice.Address.AddressLine</p>
+                    </div>
+                    <div class="flexBetween orderSummary">
+                        <p>City:</p>
+                        <p>@Model.Invoice.Address.City</p>
+                    </div>
+                    <div class="flexBetween orderSummary">
+                        <p>Postal Code:</p>
+                        <p>@Model.Invoice.Address.PostalCode</p>
+                    </div>
+                }
+
+                @if (Model.Offer != null)
+                {
+                    <br>
+                    <hr>
+                    <br>
+
+                    <h4>Offer Details</h4>
+                    <div class="flexBetween orderSummary">
+                        <p>Refund Expense:</p>
+                        <p>@Model.Offer.OrderExpense.ToString("F2") NOK</p>
+                    </div>
+                    <div class="flexBetween orderSummary">
+                        <p>Offer Status:</p>
+                        <p>@Model.Offer.Status</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

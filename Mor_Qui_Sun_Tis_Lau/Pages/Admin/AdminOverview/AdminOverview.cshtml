@@ -1,0 +1,104 @@
+@page "/Admin-overview"
+@model AdminOverviewModel
+@{
+    ViewData["Title"] = "AdminOverview";
+}
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@using Mor_Qui_Sun_Tis_Lau.Pages.Admin.Enum
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.OrderingContext.Enum;
+
+
+<div class="light_bg adHeading">
+    <h1 class="txtCenter">Orders Overview</h1>
+    <div class="lightTheme_bg">
+        <form method="get">
+            <label for="filter">Show:</label>
+            <select name="filterType" id="filter" onchange="this.form.submit()" asp-for="FilterType">
+                <option value="@FilterTypeEnum.All" selected="@(Model.FilterType == FilterTypeEnum.All)">All</option>
+                <option value=" @FilterTypeEnum.ThisMonth" selected="@(Model.FilterType == FilterTypeEnum.ThisMonth)">This month
+                </option>
+            </select>
+        </form>
+
+        <div class="" style="padding: 4rem 0 2rem 0;">
+            <p>Filter by order status:</p>
+            <button class="orderStatusFilterBtn active" id="allOrdersOpt" onclick="showOrderStatus('allOrders')">
+                View all
+            </button>
+            @foreach (OrderStatusEnum statusEnum in Enum.GetValues(typeof(OrderStatusEnum)))
+            {
+                <button class="orderStatusFilterBtn" id="@(statusEnum.ToString() + "Opt")"
+                    onclick="showOrderStatus('@statusEnum.ToString()')">@statusEnum.ToString()
+                </button>
+            }
+        </div>
+        <div class="flex" style="width: 100%">
+            @foreach (OrderStatusEnum orderStatus in Enum.GetValues(typeof(OrderStatusEnum)))
+            {
+                <h2 class="allOrders @orderStatus.ToString()">@orderStatus.ToString() orders: @Model.OrdersByStatus(orderStatus)</h2>
+            }
+        </div>
+        <br>
+        <table class="baseTable">
+            <thead>
+                <tr>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                    <th>Total Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Orders)
+                {
+                    <tr class="allOrders @order.Status">
+                        <td>@order.OrderDate</td>
+                        <td>@order.Status</td>
+                        <td>@((order.TotalCost() - order.Tip).ToString("F2")) NOK</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<style>
+    select {
+        padding: 8px 16px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+        color: #111
+    }
+
+    select:focus {
+        outline: none;
+        border-color: #007BFF;
+    }
+
+    h2 {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 2rem 3rem 2rem 0;
+        text-align: center;
+    }
+</style>
+
+
+@section Scripts
+{
+    <script>
+        function showOrderStatus(status) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.orderStatusFilterBtn').forEach(btn => btn.classList.remove('active'));
+
+            // Hide all content divs
+            document.querySelectorAll('.allOrders').forEach(tr => tr.classList.add('hide'));
+
+            document.getElementById(`${status}Opt`).classList.add('active');
+            document.querySelectorAll(`.${status}`).forEach(tr => tr.classList.remove('hide'));
+        }
+    </script>
+}

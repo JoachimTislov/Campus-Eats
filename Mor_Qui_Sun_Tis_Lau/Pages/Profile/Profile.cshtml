@@ -1,0 +1,83 @@
+﻿@page "/Profile"
+@model ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profilePage.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+    <div class="standardContainer profileContainer">
+        <h1 class="txtCenter">@ViewData["Title"]</h1>
+
+        <div class="flexBetween" style="width: 650px; margin: auto;">
+            <div class="standardBox">
+                <h4>Profile information</h4>
+                <form method="Post" asp-page-handler="Profile">
+                    <div class="">
+                        <div class="">
+                            <p>First name</p>
+                            <input asp-for="ViewModel.FirstName" id="firstName" type="text" placeholder="first name"
+                                class="" />
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <p>Last name</p>
+                            <input asp-for="ViewModel.LastName" id="lastName" type="text" placeholder="last name"
+                                class="" />
+                        </div>
+                        <span asp-validation-for="ViewModel.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <p>Phone Number</p>
+                            <input asp-for="ViewModel.PhoneNumber" id="phoneNumber" type="text" placeholder="phone number"
+                                class="" />
+                        </div>
+                        <span asp-validation-for="ViewModel.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <p>Email</p>
+                            <input asp-for="ViewModel.Email" id="email" type="email" placeholder="email" value="@Model.ViewModel.Email"
+                                class="" disabled />
+                        </div>
+                        <span asp-validation-for="ViewModel.Email" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary"> Update Profile </button>
+                </form>
+            </div>
+
+            <div class="standardBox">
+                <h4>Billing address</h4>
+                <form method="post" asp-page-handler="Address" style="width: 200px;">
+                    <div class="">
+                        <div class="">
+                            <p>Address</p>
+                            <input asp-for="AddressViewModel.Address" id="address" type="text" placeholder="address"
+                                class="" />
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <p>City</p>
+                            <input asp-for="AddressViewModel.City" id="city" type="text" placeholder="city"
+                                class="" />
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <p>Postal code</p>
+                            <input asp-for="AddressViewModel.PostalCode" id="postalCode" type="text" placeholder="postal code"
+                                class="" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary"> Update Address </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

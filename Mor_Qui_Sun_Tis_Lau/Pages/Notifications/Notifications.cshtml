@@ -1,0 +1,31 @@
+@page "/Notifications"
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model NotificationModel
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="light_bg">
+    <div class="standardContainer">
+        <h1> @ViewData["Title"]</h1>
+
+        @foreach (var notification in Model.Notifications)
+        {
+            <div class="d-flex flex-column border border-3 m-3 p-3">
+
+                <h2> @notification.Title </h2>
+
+                <br>
+
+                <h6> @notification.Description </h6>
+
+                <h6 class="ms-auto"> @notification.CreatedAt </h6>
+
+                @if (notification.Link != null)
+                {
+                    <a href="@notification.Link">Respond to Invitation</a>
+                }
+            </div>
+        }
+    </div>
+</div>

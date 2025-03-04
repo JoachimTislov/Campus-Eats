@@ -1,0 +1,53 @@
+name: Test Docker Container
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker Image
+      run: |
+        docker build -t my-app:latest .
+
+    - name: Run Docker Container
+      run: |
+        docker run -d --name mor_qui_sun_tis_lau -p 5001:5001 my-app:latest
+
+    - name: Wait for Container to Start
+      run: |
+        for i in {1..30}; do
+          if docker ps --filter "name=mor_qui_sun_tis_lau" --filter "status=running" | grep mor_qui_sun_tis_lau; then
+            echo "Container is running";
+            exit 0;
+          fi;
+          echo "Waiting for container to start...";
+          sleep 1;
+        done;
+        echo "Container did not start in time";
+        docker logs mor_qui_sun_tis_lau;
+        exit 1;
+
+    - name: Test Container Functionality
+      run: |
+        sleep 5
+        response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5001/)
+        if [ "$response" -ne 200 ]; then
+          echo "Container is not functional. Health check failed with status $response";
+          exit 1;
+        fi;
+        echo "Container is functional.";
+
+    - name: Stop and Remove Container
+      run: |
+        docker stop mor_qui_sun_tis_lau
+        docker rm mor_qui_sun_tis_lau

@@ -1,0 +1,21 @@
+@page "/Admin-invitation-form"
+@model AdminInvitationFormModel
+@{
+    ViewData["Title"] = "Invitation Form";
+}
+
+<div class="light_bg adHeading">
+    <h1 class="txtCenter">Invite to admin-role</h1>
+    <div class="lightTheme_bg" style="max-width: 600px;">
+        <form method="post">
+            <input type="hidden" asp-for="UserId" />
+            <div>
+                <label asp-for="Resume" style="margin-bottom: 0.5rem;">Message to user:</label>
+                <textarea asp-for="Resume" rows="4" style="width: 100%;"></textarea>
+                <span asp-validation-for="Resume" class="text-danger"></span>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Send Invitation</button>
+        </form>
+    </div>
+</div>

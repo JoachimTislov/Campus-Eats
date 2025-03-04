@@ -1,0 +1,68 @@
+@page "/Cart"
+@model CartModel
+@{
+    ViewData["Title"] = "Cart";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/userPages.css" asp-append-version="true" />
+}
+
+<div class="light_bg">
+    <div class="cartContainer">
+        @if (!Model.CartItems.Any())
+        {
+            <h1>Cart is empty</h1>
+        }
+        else
+        {
+            <h1>Your Cart</h1>
+            @foreach (var item in Model.CartItems)
+            {
+                <div class="standardBox cartItem flex">
+                    <div class="imgContainer">
+                        <img src="@Url.Content($"~/img/{item.ImageLink}")" alt="@item.Name">
+                    </div>
+                    <div>
+                        <h4>@item.Name</h4>
+                        <div>
+                            <button type="button" class="countBtn" onclick="decrementCartItemCountOrDeleteIfZero('@item.Sku')">
+                                @if (item.Count > 1)
+                                {
+                                    @:-
+                                }
+                                else
+                                {
+                                    <partial name="Partials/_trashCanPartial" />
+                                }
+                            </button>
+
+                            <span class="countSpan" id="countSpan-@item.Sku">@item.Count</span>
+
+                            <button type="button" class="countBtn" onclick="incrementCartItemCount('@item.Sku')">+</button>
+                        </div>
+                    </div>
+                    <form method="post" asp-page-handler="DeleteCartItemFromCart">
+                        <input type="text" name="itemId" value="@item.Sku" hidden>
+
+                        <button type="submit" class="remBtn">
+                            <partial name="Partials/_trashCanPartial" />
+                        </button>
+                    </form>
+                    <span class="itemSum" id="itemSum-@item.Sku">@item.Sum.ToString("F2")<span>NOK</span></span>
+                </div>
+            }
+            <div class="cartSum">
+                <p>Subtotal: <span>@Model.CartSubtotal.ToString("F2")</span><span> NOK</span></p>
+            </div>
+            <form method="post" asp-page-handler="CheckoutCart">
+                <button class="mainBtn" type="submit">Go to checkout</button>
+            </form>
+        }
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="/js/Cart.js"></script>
+}

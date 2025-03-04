@@ -1,0 +1,61 @@
+@using Mor_Qui_Sun_Tis_Lau.Pages.Home.ViewModels
+@model RegisterViewModel
+
+<p class="displayedMsg">Become a <span class="underlined">customer</span></p>
+<form method="post" asp-page-handler="Register">
+    @if (!string.IsNullOrEmpty(Model.RegisterErrorMessage) || Model.Errors.Length > 0)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mb-4 text-center" role="alert">
+            <strong> @Model.RegisterErrorMessage </strong>
+
+            @foreach (var error in Model.Errors)
+            {
+                <p> @error.Description </p>
+            }
+
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="mb-2 form-group">
+        <div class="form-floating">
+            <input asp-for="FirstName" id="firstName" type="text" placeholder="First Name"
+                class="form-control CredsInputField " required />
+            <label for="firstName"> First Name </label>
+        </div>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="mb-5 form-group">
+        <div class="form-floating">
+            <input asp-for="LastName" id="lastName" type="text" placeholder="Last Name"
+                class="form-control  CredsInputField " required />
+            <label for="lastName"> Last Name </label>
+        </div>
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div class="mb-2 form-group">
+        <div class="form-floating">
+            <input asp-for="Email" id="registerEmail" type="email" placeholder="Email"
+                class="form-control  CredsInputField " required />
+            <label for="registerEmail"> Email </label>
+        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="mb-2 form-group">
+        <div class="form-floating">
+            <input asp-for="Password" id="registerPassword" type="password" placeholder="Password"
+                class="form-control  CredsInputField " required />
+            <label for="registerPassword"> Password </label>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="form-floating">
+            <input asp-for="Repeat_Password" id="repeat_password" type="password" placeholder="Repeat password"
+                class="form-control  CredsInputField " required />
+            <label for="repeat_password"> Repeat password </label>
+        </div>
+        <span asp-validation-for="Repeat_Password" class="text-danger"></span>
+    </div>
+
+    <button class="SubmitButton" type="submit"> Register </button>
+</form>

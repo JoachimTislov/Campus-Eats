@@ -1,0 +1,57 @@
+@page "/Create-product"
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.ProductContext
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model CreateProductModel
+@{
+    ViewData["Title"] = "Add new product";
+}
+
+<div class="create-product-container">
+    <h2>Create New Product</h2>
+
+    @if (Model.Errors.Any())
+    {
+        <div class="error-messages">
+            @foreach (var error in Model.Errors)
+            {
+                <div class="error-text">@error</div>
+            }
+        </div>
+    }
+
+    <form method="post" enctype="multipart/form-data" class="create-form">
+        <div class="image-upload-container d-flex flex-column">
+            <span asp-validation-for="ViewModel.ImageFile" class="text-danger"></span>
+            <img id="ImagePreview" src="/img/filler.jpg" alt="Image Preview" class="product-image-preview"/>
+            <span asp-validation-for="ViewModel.ImageFile" class="text-danger"></span>
+            <label class="image-upload-button">
+                Upload Image
+                <input asp-for="ViewModel.ImageFile" type="file" class="image-input" id="ImageFile" accept="image/*" />
+            </label>
+        </div>
+        <div class="form-fields">
+            <label for="Name">Name:</label>
+            <input asp-for="ViewModel.Name" class="form-control text-input" id="Name" />
+            <span asp-validation-for="ViewModel.Name" class="text-danger"></span>
+
+            <label for="Price">Price:</label>
+            <input asp-for="ViewModel.Price" class="form-control text-input" id="Price" type="number" step="0.01" />
+            <span asp-validation-for="ViewModel.Price" class="text-danger"></span>
+
+            <label for="Description">Description:</label>
+            <textarea asp-for="ViewModel.Description" class="form-control text-input" id="Description"></textarea>
+            <span asp-validation-for="ViewModel.Description" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex">
+            <a class="BackButton" asp-page="@UrlProvider.Index">Back</a>
+            <button type="submit" class="ms-auto save-button">Create</button>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/ImagePreview.js"></script>
+    <script src="~/js/inputAddDot.js"></script>
+}

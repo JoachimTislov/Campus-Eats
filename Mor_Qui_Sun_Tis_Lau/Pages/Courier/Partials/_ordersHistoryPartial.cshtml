@@ -1,0 +1,29 @@
+@using Mor_Qui_Sun_Tis_Lau.Core.Domain.OrderingContext.Enum
+@if (Model.CourierOrderHistory == null)
+{
+    <p>No orders history to show.</p>
+}
+else
+{
+
+    @foreach (var order in Model.CourierOrderHistory)
+    {
+        @if (order.Status == OrderStatusEnum.Picked || order.Status == OrderStatusEnum.Shipped || order.Status ==
+       OrderStatusEnum.Delivered)
+        {
+            <div class="card">
+                <h5 class="card-header">Order</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Location: @order.CampusLocation.LocationDisplay()</h5>
+                    <p class="card-text">Note: @order.CampusLocation.Notes <br> Compensation: @order.CourierEarning NOK <br> Status:
+                        <strong>@order.Status</strong>
+                    </p>
+                    <form method="post" asp-page-handler="TakeOrShowOrder">
+                        <input type="hidden" name="orderId" value="@order.Id" />
+                        <button class="btn btn-primary bold" type="submit">Show details</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+}

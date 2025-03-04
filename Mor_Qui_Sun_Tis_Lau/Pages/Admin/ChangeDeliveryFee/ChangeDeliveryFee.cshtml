@@ -1,0 +1,27 @@
+@page "/Change-deliveryFee"
+@using Mor_Qui_Sun_Tis_Lau.Helpers
+@model ChangeDeliveryFeeModel
+@{
+    ViewData["Title"] = "Invitation Form";
+}
+
+<div class="light_bg adHeading">
+    <h1 class="txtCenter">Change Delivery Fee</h1>
+    <div class="lightTheme_bg" style="max-width: 250px;">
+        <p style="padding: 1rem 0 1rem 0;">Current Delivery Fee: <br> <span
+                class="bold">@Model.DeliveryFee.ToString("F2")</span> NOK</p>
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="DeliveryFee" class="control-label">Set new delivery fee (NOK):</label>
+                <input type="text" asp-for="DeliveryFee" placeholder="0.00"
+                    style="width: 100%; margin-top: 0.5rem;"><br>
+                <span asp-validation-for="DeliveryFee" class="text-danger txtCenter" style="display: block;"></span>
+            </div>
+            <br>
+            <div class="flexBetween">
+                <button type="submit" class="btn btn-primary">Change</button>
+            </div>
+        </form>
+    </div>
+</div>

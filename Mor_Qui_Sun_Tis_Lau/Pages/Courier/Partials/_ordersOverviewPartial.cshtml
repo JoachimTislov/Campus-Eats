@@ -1,0 +1,25 @@
+@if (Model.OrdersAvailableForPickup == null)
+{
+    <p>No orders available for pickup.</p>
+}
+else
+{
+    @foreach (var order in Model.OrdersAvailableForPickup)
+    {
+        <div class="card">
+            <h5 class="card-header">Order</h5>
+            <div class="card-body">
+                <h5 class="card-title">Location: @order.CampusLocation?.LocationDisplay()</h5>
+                <p class="card-text">Note: @order.CampusLocation?.Notes <br> Compensation: @(order.CourierDeliveryFeeCut) +
+                    tip
+                    <br> Status: <strong>@order.Status</strong>
+                </p>
+                <form method="post" asp-page-handler="TakeOrShowOrder">
+                    <input type="hidden" name="orderId" value="@order.Id" />
+                    <input type="hidden" name="takingOrder" value="true" />
+                    <button class="accentBtn" type="submit">Take order</button>
+                </form>
+            </div>
+        </div>
+    }
+}
